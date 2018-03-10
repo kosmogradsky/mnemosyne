@@ -4,11 +4,11 @@
     <form action="" @submit.prevent="login">
       <div class="field">
         <label for="login-email" class="label">E-mail:</label>
-        <input type="email" id="login-email" v-model="email">
+        <input type="email" id="login-email" v-model="email" class="input">
       </div>
       <div class="field">
         <label for="login-password" class="label">Пароль:</label>
-        <input type="password" id="login-password" v-model="password">
+        <input type="password" id="login-password" v-model="password" class="input">
       </div>
       <button class="submit">
         Войти
@@ -65,9 +65,14 @@ export default {
   margin-bottom: .75em;
 }
 
+.input {
+  border-color: white;
+  color: white;
+}
+
 .submit {
   margin-top: .75em;
-  background-color: var(--secondary);
+  background-color: white;
   border: none;
   width: 100%;
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2);

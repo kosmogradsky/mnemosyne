@@ -11,15 +11,19 @@
       >
         <div>{{ movie.name }}</div>
         <div class="last-watched">
-          Последний раз просмотрено: {{ new Date(movie.lastWatched).toLocaleDateString() }}
+          В последний раз просмотрено: {{ new Date(movie.lastWatched).toLocaleDateString() }}
         </div>
       </div>
     </div>
-    <form action="" @submit.prevent="addMovie">
+    <form
+      action=""
+      @submit.prevent="addMovie"
+      class="form"
+    >
       <input
         type="text"
         class="input"
-        placeholder="Добавить фильм"
+        placeholder="Название фильма..."
         v-model="newMovieName"
       >
     </form>
@@ -88,16 +92,17 @@ export default {
 }
 
 .movies {
-  padding: 15px;
+  padding: 10px 15px;
   overflow: auto;
   flex-grow: 1;
 }
 
 .input {
-  height: 40px;
   width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
+}
+
+.form {
+  padding: 10px 15px;
 }
 
 </style>

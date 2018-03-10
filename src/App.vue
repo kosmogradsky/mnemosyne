@@ -44,4 +44,12 @@ button {
 * {
   box-sizing: border-box;
 }
+
+.input {
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.42);
+  background-color: transparent;
+  height: 40px;
+}
+
 </style>
