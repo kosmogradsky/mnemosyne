@@ -32,6 +32,8 @@
 
 <script>
 import firebase from '@firebase/app';
+import authService from '@/services/AuthService';
+import { filter } from 'rxjs/operators/filter';
 
 export default {
   name: 'home',
@@ -54,17 +56,16 @@ export default {
       this.newMovieName = '';
     },
   },
-  watch: {
-    '$store.state.user': {
-      immediate: true,
-      handler: function watchAuth(user) {
-        if (user) {
-          if (this.ref) this.ref.off();
-          this.ref = firebase.database().ref(`/${user.uid}/movies`);
-          this.ref.on('value', (snapshot) => { this.movies = snapshot.val(); });
-        }
+  created() {
+    this.$subscribeTo(
+      authService.state
+        .pipe(filter(user => user)),
+      (user) => {
+        if (this.ref) this.ref.off();
+        this.ref = firebase.database().ref(`/${user.uid}/movies`);
+        this.ref.on('value', (snapshot) => { this.movies = snapshot.val(); });
       },
-    },
+    );
   },
 };
 </script>
@@ -73,7 +74,7 @@ export default {
 .root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .header {

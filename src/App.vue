@@ -4,11 +4,11 @@
 
 <script>
 import firebase from '@firebase/app';
+import authService from '@/services/AuthService';
 
 export default {
   created() {
-    firebase.auth().onAuthStateChanged(user =>
-      this.$store.commit('UPDATE_AUTH_STATE', user));
+    firebase.auth().onAuthStateChanged(user => authService.updateUser(user));
   },
 };
 </script>
@@ -50,6 +50,7 @@ button {
   border-bottom: 2px solid rgba(0, 0, 0, 0.42);
   background-color: transparent;
   height: 40px;
+  border-radius: 0;
 }
 
 </style>

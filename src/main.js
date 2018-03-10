@@ -2,9 +2,19 @@ import firebase from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/database';
 import Vue from 'vue';
+import VueRx from 'vue-rx';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+
+// tada!
+Vue.use(VueRx, {
+  Observable,
+  Subscription,
+  Subject,
+});
 
 const config = {
   apiKey: 'AIzaSyDkWZ7dmMfdvubYoFzX0DfMyDHaeyVZU8U',
@@ -20,6 +30,5 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
-  store,
   render: h => h(App),
 }).$mount('#app');

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Login from './views/Login.vue';
-// import store from './store';
+import { take } from 'rxjs/operators/take';
+import Home from './components/Home.vue';
+import Login from './components/Login.vue';
+import authService from './services/AuthService';
 
 Vue.use(Router);
 
@@ -12,11 +13,20 @@ export default new Router({
     {
       path: '/',
       component: Home,
-      // beforeEnter: (to, from, next) => (store.state.user ? next() : next('/login')),
+      beforeEnter: (to, from, next) => {
+        authService.state
+          .pipe(take(1))
+          .subscribe(user => (user ? next() : next('/login')));
+      },
     },
     {
       path: '/login',
       component: Login,
+      beforeEnter: (to, from, next) => {
+        authService.state
+          .pipe(take(1))
+          .subscribe(user => (user ? next('/') : next()));
+      },
     },
   ],
 });

@@ -19,6 +19,8 @@
 
 <script>
 import firebase from '@firebase/app';
+import authService from '@/services/AuthService';
+import { filter } from 'rxjs/operators/filter';
 
 export default {
   data() {
@@ -32,15 +34,11 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password);
     },
   },
-  watch: {
-    '$store.state.user': {
-      immediate: true,
-      handler: function watchAuth(user) {
-        if (user) {
-          this.$router.push('/');
-        }
-      },
-    },
+  created() {
+    this.$subscribeTo(
+      authService.state.pipe(filter(user => user)),
+      () => this.$router.push('/'),
+    );
   },
 };
 </script>
