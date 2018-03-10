@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <div class="header">
-      Histore
+      Mnemosyne
     </div>
     <div class="movies">
       <div
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import firebase from '@firebase/app';
 
 export default {
   name: 'home',
@@ -35,30 +36,30 @@ export default {
   data() {
     return {
       newMovieName: '',
-      movies: [
-        {
-          name: 'Отель Гранд Будапешт',
-          lastWatched: 1519338775000,
-        },
-        {
-          name: 'Отель Гранд Будапешт',
-          lastWatched: 1519338775000,
-        },
-        {
-          name: 'Отель Гранд Будапешт',
-          lastWatched: 1519338775000,
-        },
-      ],
+      movies: {},
     };
   },
   methods: {
     addMovie() {
-      this.movies.push({
+      const newMovieRef = this.ref.push();
+      newMovieRef.set({
         name: this.newMovieName,
         lastWatched: Date.now(),
       });
 
       this.newMovieName = '';
+    },
+  },
+  watch: {
+    '$store.state.user': {
+      immediate: true,
+      handler: function watchAuth(user) {
+        if (user) {
+          if (this.ref) this.ref.off();
+          this.ref = firebase.database().ref(`/${user.uid}/movies`);
+          this.ref.on('value', (snapshot) => { this.movies = snapshot.val(); });
+        }
+      },
     },
   },
 };
@@ -72,9 +73,10 @@ export default {
 }
 
 .header {
-  background-color: #f44334;
+  background-color: var(--primary);
   box-shadow: 0 2px 5px rgba(0,0,0,.26);
   padding: 17px 15px;
+  color: white;
 }
 
 .movie {
