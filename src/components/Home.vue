@@ -107,6 +107,7 @@ export default {
   padding: 10px 15px;
   overflow: auto;
   flex-grow: 1;
+  -webkit-overflow-scrolling: touch;
 }
 
 .input {

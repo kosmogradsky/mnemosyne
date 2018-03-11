@@ -27,11 +27,14 @@ body {
   margin: 0;
   font-family: 'Roboto Mono', monospace;
   background-color: #fafafa;
+  overflow: hidden;
 }
 
 input {
   font-family: inherit;
   font-size: 1rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 button {
