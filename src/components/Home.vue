@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import firebase from '@firebase/app';
-import authService from '@/services/AuthService';
+import db from '@/main';
+import authService from '@/services/authService';
 import { filter } from 'rxjs/operators/filter';
 
 export default {
@@ -42,28 +42,39 @@ export default {
   data() {
     return {
       newMovieName: '',
-      movies: {},
+      movies: [],
     };
   },
   methods: {
     addMovie() {
-      const newMovieRef = this.ref.push();
-      newMovieRef.set({
+      db.collection('movies').add({
         name: this.newMovieName,
         lastWatched: Date.now(),
+        uid: this.user.uid,
       });
 
       this.newMovieName = '';
     },
+    subscribeToMovies() {
+      if (this.queryUnsubscribe) this.queryUnsubscribe();
+      this.queryUnsubscribe = db.collection('movies')
+        .where('uid', '==', this.user.uid)
+        .orderBy('lastWatched', 'desc')
+        .onSnapshot((querySnapshot) => {
+          const movies = [];
+          querySnapshot.forEach((doc) => {
+            movies.push(doc.data());
+          });
+          this.movies = movies;
+        });
+    },
   },
   created() {
     this.$subscribeTo(
-      authService.state
-        .pipe(filter(user => user)),
+      authService.state.pipe(filter(user => user)),
       (user) => {
-        if (this.ref) this.ref.off();
-        this.ref = firebase.database().ref(`/${user.uid}/movies`);
-        this.ref.on('value', (snapshot) => { this.movies = snapshot.val(); });
+        this.user = user;
+        this.subscribeToMovies();
       },
     );
   },

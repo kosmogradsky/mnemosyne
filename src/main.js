@@ -1,6 +1,6 @@
 import firebase from '@firebase/app';
 import '@firebase/auth';
-import '@firebase/database';
+import '@firebase/firestore';
 import Vue from 'vue';
 import VueRx from 'vue-rx';
 import { Observable } from 'rxjs/Observable';
@@ -25,6 +25,8 @@ const config = {
   messagingSenderId: '111609673865',
 };
 firebase.initializeApp(config);
+
+export default firebase.firestore();
 
 Vue.config.productionTip = false;
 

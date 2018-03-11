@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import { take } from 'rxjs/operators/take';
 import Home from './components/Home.vue';
 import Login from './components/Login.vue';
-import authService from './services/AuthService';
+import authService from './services/authService';
 
 Vue.use(Router);
 

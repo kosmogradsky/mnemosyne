@@ -4,7 +4,7 @@
 
 <script>
 import firebase from '@firebase/app';
-import authService from '@/services/AuthService';
+import authService from '@/services/authService';
 
 export default {
   created() {
