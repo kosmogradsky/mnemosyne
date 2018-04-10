@@ -4,11 +4,11 @@
     <form action="" @submit.prevent="login">
       <div class="field">
         <label for="login-email" class="label">E-mail:</label>
-        <input type="email" id="login-email" v-model="email" class="input">
+        <input type="email" id="login-email" ref="email" class="input">
       </div>
       <div class="field">
         <label for="login-password" class="label">Пароль:</label>
-        <input type="password" id="login-password" v-model="password" class="input">
+        <input type="password" id="login-password" ref="password" class="input">
       </div>
       <button class="submit">
         Войти
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     login() {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+      firebase.auth().signInWithEmailAndPassword(this.$refs.email.value, this.$refs.password.value);
     },
   },
   created() {
@@ -51,10 +51,10 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  padding-top: 26vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: var(--primary);
   color: white;
 }
@@ -74,10 +74,7 @@ export default {
 
 .submit {
   margin-top: .75em;
-  background-color: white;
-  border: none;
   width: 100%;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2);
 }
 
 </style>

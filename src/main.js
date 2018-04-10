@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import App from './App.vue';
 import router from './router';
+import noun from './filters/noun';
 
 // tada!
 Vue.use(VueRx, {
@@ -29,6 +30,8 @@ firebase.initializeApp(config);
 export default firebase.firestore();
 
 Vue.config.productionTip = false;
+
+Vue.filter('noun', noun);
 
 new Vue({
   router,
